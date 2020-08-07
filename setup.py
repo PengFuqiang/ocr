@@ -19,17 +19,17 @@ def parser_args() :
 
     parser.add_argument('-angle', type = float, default = 7.0, help = 'rotate angle of pic')
 
-    parser.add_argument('-bright_limit', type = float, default = 0.5, help = 'the bright coe, limited 0 and 2')
+    parser.add_argument('-bright_limit', type = float, default = 0.3, help = 'the bright coe, limited 0 and 2')
 
-    parser.add_argument('-color_limit', type = float, default = 1.0, help = 'the color coe, between 0 and 2')
+    parser.add_argument('-color_limit', type = float, default = 0.5, help = 'the color coe, between 0 and 2')
 
-    parser.add_argument('-contrast_limit', type = float, default = 0.5, help = 'the contrast coe, between 0 and 2')
+    parser.add_argument('-contrast_limit', type = float, default = 0.3, help = 'the contrast coe, between 0 and 2')
 
     parser.add_argument('-sharp_limit', type = float, default = 2.0, help = 'the sharp coe, between 0 and 4')
 
     parser.add_argument('-part_bright_coe', type = int, default = 50, help = 'the num of px to bright,between 0 and 50')
 
-    parser.add_argument('-num', type = int, default = 5, help = 'the num of strong pictures')
+    parser.add_argument('-num', type = int, default = 1, help = 'the num of strong pictures')
 
     parser.add_argument('-strong_if', type = int, default = 0, help = '1 is strong pic, 0 is don\'t strong pic')
 
