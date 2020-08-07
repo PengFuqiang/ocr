@@ -76,11 +76,11 @@ def part_bright() :
             img = cv2.imread('template2/tmp2_res/rotate/pic' + str(i) + '.jpg')
             #   指定区域变暗
             rows, cols, c = img.shape  # rows = height, cols = width
-            dark = random.randint(0, args.part_bright_coe)
+            dark = random.randint(-args.part_bright_coe, args.part_bright_coe)
             with open('template2/tmp2_res/txt/pic' + str(i) + '.txt', 'r') as f :
                 lines = f.readlines()
                 tp = []
-                for line in lines[5 : 9] :
+                for line in lines[8 : 12] :
                     temp1 = line.strip('\n')
                     temp2 = temp1.split(',')
                     tp.extend(temp2)
@@ -92,11 +92,12 @@ def part_bright() :
             for x in range(y1, y2) :
                 for y in range(x1, x2) :
                     for z in range(c) :
-                        if (img[x, y, z] - dark) > 255 :
+                        if (img[x, y, z] + dark) > 255 :
                             img[x, y, z] = 255
-                        elif (img[x, y, z] - dark) < 0 :
+                        elif (img[x, y, z] + dark) < 0 :
                             img[x, y, z] = 0
-                        img[x, y, z] -= dark
+                        else :
+                            img[x, y, z] += dark
             cv2.imwrite('template2/tmp2_res/part_bright/pic' + str(i) + '_' + str(j) + '_part.jpg', img)
 
 

@@ -8,12 +8,14 @@ import cv2
 import random
 import setup
 
+
 def strong() :
     bright()
     color()
     contrast()
     sharp()
     part_bright()
+
 
 def bright() :
     args = setup.parser_args()
@@ -27,6 +29,7 @@ def bright() :
             image_brightened = enh_bri.enhance(brightness)
             image_brightened.save('template1/tmp1_res/bright/pic' + str(i) + '_' + str(j) + '_bri.jpg')
 
+
 def color() :
     args = setup.parser_args()
     for i in range(args.amount) :
@@ -38,6 +41,7 @@ def color() :
             color_cc = cc2
             image_colored = enh_col.enhance(color_cc)
             image_colored.save('template1/tmp1_res/color/pic' + str(i) + '_' + str(j) + '_col.jpg')
+
 
 def contrast() :
     args = setup.parser_args()
@@ -51,6 +55,7 @@ def contrast() :
             image_contrasted = enh_con.enhance(contrast_cc)
             image_contrasted.save('template1/tmp1_res/contrast/pic' + str(i) + '_' + str(j) + '_con.jpg')
 
+
 def sharp() :
     args = setup.parser_args()
     for i in range(args.amount) :
@@ -63,6 +68,7 @@ def sharp() :
             image_sharped = enh_sha.enhance(sharpness)
             image_sharped.save('template1/tmp1_res/sharp/pic' + str(i) + '_' + str(j) + '_sha.jpg')
 
+
 def part_bright() :
     args = setup.parser_args()
     for i in range(args.amount) :
@@ -70,11 +76,11 @@ def part_bright() :
             img = cv2.imread('template1/tmp1_res/rotate/pic' + str(i) + '.jpg')
             #   指定区域变暗
             rows, cols, c = img.shape  # rows = height, cols = width
-            dark = random.randint(0, args.part_bright_coe)
+            dark = random.randint(-args.part_bright_coe, args.part_bright_coe)
             with open('template1/tmp1_res/txt/pic' + str(i) + '.txt', 'r') as f :
                 lines = f.readlines()
                 tp = []
-                for line in lines[5 : 9] :
+                for line in lines[8 : 12] :
                     temp1 = line.strip('\n')
                     temp2 = temp1.split(',')
                     tp.extend(temp2)
@@ -86,12 +92,14 @@ def part_bright() :
             for x in range(y1, y2) :
                 for y in range(x1, x2) :
                     for z in range(c) :
-                        if (img[x, y, z] - dark) > 255 :
+                        if (img[x, y, z] + dark) > 255 :
                             img[x, y, z] = 255
-                        elif (img[x, y, z] - dark) < 0 :
+                        elif (img[x, y, z] + dark) < 0 :
                             img[x, y, z] = 0
-                        img[x, y, z] -= dark
+                        else :
+                            img[x, y, z] += dark
             cv2.imwrite('template1/tmp1_res/part_bright/pic' + str(i) + '_' + str(j) + '_part.jpg', img)
+
 
 def adjust() :
     args = setup.parser_args()

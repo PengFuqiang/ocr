@@ -25,6 +25,7 @@ im = Image.open('template0/pic_template/template_1.jpg')
 draw = ImageDraw.Draw(im)
 
 filename = 'template0/res/pic1.txt'
+kv_filename = 'template0/res/pic1_kv.txt'
 rotate_angle = 0
 cx, cy = 0, 0
 index = 0
@@ -113,6 +114,9 @@ def print_date() :
     text = xy_end(x1, y1, x2, y2, x3, y3, x4, y4)
     with open(filename, 'a+') as f :
         f.write(text + date + '\n')
+    with open(kv_filename, 'a+') as fname :
+        fname.write("发票基本信息_开票日期" + '\t' + date + '\n')
+        fname.write("发票基本信息_校验码" + '\n')
 
 
 # 购买方区域文字添加
@@ -136,6 +140,8 @@ def purchase() :
     text = xy_end(x1, y1, x2, y2, x3, y3, x4, y4)
     with open(filename, 'a+') as f :
         f.write(text + name + '\n')
+    with open(kv_filename, 'a+') as fname :
+        fname.write("购买方_名称" + '\t' + name + '\n')
 
     # 添加纳税人识别号
     id_num = ''.join(str(random.choice(range(10))) for _ in range(15))  # 随机生成15位纳税人识别号
@@ -147,6 +153,8 @@ def purchase() :
     text = xy_end(id_x1, id_y1, id_x2, id_y2, id_x3, id_y3, id_x4, id_y4)
     with open(filename, 'a+') as f :
         f.write(text + id_num + '\n')
+    with open(kv_filename, 'a+') as fname :
+        fname.write("购买方_纳税人识别号" + '\t' + id_num + '\n')
     # 添加地址电话
     phone1 = ''.join(str(random.choice(range(10))) for _ in range(3))
     phone2 = ''.join(str(random.choice(range(10))) for _ in range(7))
@@ -161,6 +169,8 @@ def purchase() :
     text = xy_end(add_ph_x1, add_ph_y1, add_ph_x2, add_ph_y2, add_ph_x3, add_ph_y3, add_ph_x4, add_ph_y4)
     with open(filename, 'a+') as f :
         f.write(text + address_phone + '\n')
+    with open(kv_filename, 'a+') as fname :
+        fname.write("购买方_地址、电话" + '\t' + address_phone + '\n')
 
     # 添加开户行及账号
     bank1 = ['招商银行', '汉口银行', 'EBA银行']
@@ -180,6 +190,8 @@ def purchase() :
     text = xy_end(bank_x1, bank_y1, bank_x2, bank_y2, bank_x3, bank_y3, bank_x4, bank_y4)
     with open(filename, 'a+') as f :
         f.write(text + bank_account + '\n')
+    with open(kv_filename, 'a+') as fname :
+        fname.write("购买方_开户行及账号" + '\t' + bank_account + '\n')
 
 
 # 添加密码区
@@ -282,6 +294,10 @@ def add_goods() :
             f.write(goods_text + goods + '\n')
             f.write(standards_text + standards + '\n')
             f.write(units_text + units + '\n')
+        with open(kv_filename, 'a+') as fname :
+            fname.write("货物或应税劳务、服务名称" + '\t' + goods + '\n')
+            fname.write("规格型号" + '\t' + standards + '\n')
+            fname.write("单位" + '\t' + units + '\n')
 
         amount = random.choice(amounts)  # 取对应的数量
         unit_price = random.choice(unit_prices)  # 取单价
@@ -333,6 +349,12 @@ def add_goods() :
             f.write(total_price_text + ("%.2f" % total_price) + '\n')
             f.write(rate_text + str(rate) + '%' + '\n')
             f.write(tax_text + ("%.2f" % tax_amount) + '\n')
+        with open(kv_filename, 'a+') as fname :
+            fname.write("数量" + '\t' + str(amount) + '\n')
+            fname.write("单价" + '\t' + str(unit_price) + '\n')
+            fname.write("金额" + '\t' + ("%.2f" % total_price) + '\n')
+            fname.write("税率" + '\t' + str(rate) + '%' + '\n')
+            fname.write("税额" + '\t' + ("%.2f" % tax_amount) + '\n')
     # 计算总价
     total = total1 + total2
     big_total = digital_to_chinese(round(total, 2))  # 总金额取两位并转为大写
@@ -378,6 +400,11 @@ def add_goods() :
         f.write(total2_text + '￥' + ("%.2f" % total2) + '\n')
         f.write(total_text + '￥' + ("%.2f" % total) + '\n')
         f.write(big_text + big_total + '\n')
+    with open(kv_filename, 'a+') as fname :
+        fname.write("合计金额" + '\t' + ("%.2f" % total1) + '\n')
+        fname.write("合计税额" + '\t' + ("%.2f" % total2) + '\n')
+        fname.write("价税合计（大写）" + '\t' + big_total + '\n')
+        fname.write("价税合计（小写）" + '\t' + ("%.2f" % total) + '\n')
 
 
 # 添加销售方内容
@@ -394,6 +421,8 @@ def add_seller() :  # 添加销售方名称
     text = xy_end(x1, y1, x2, y2, x3, y3, x4, y4)
     with open(filename, 'a+') as f :
         f.write(text + seller_name + '\n')
+    with open(kv_filename, 'a+') as fname :
+        fname.write("销售方_名称" + '\t' + seller_name + '\n')
 
 
 def seller_nums() :  # 添加纳税人识别号（销售方）
@@ -412,6 +441,8 @@ def seller_nums() :  # 添加纳税人识别号（销售方）
     text = xy_end(x1, y1, x2, y2, x3, y3, x4, y4)
     with open(filename, 'a+') as f :
         f.write(text + seller_num + '\n')
+    with open(kv_filename, 'a+') as fname :
+        fname.write("销售方_纳税人识别号" + '\t' + seller_num + '\n')
 
 
 def add_and_phone() :  # 添加地址、电话（销售方）
@@ -431,6 +462,8 @@ def add_and_phone() :  # 添加地址、电话（销售方）
     text = xy_end(x1, y1, x2, y2, x3, y3, x4, y4)
     with open(filename, 'a+') as f :
         f.write(text + address_phone + '\n')
+    with open(kv_filename, 'a+') as fname :
+        fname.write("销售方_地址、电话" + '\t' + address_phone + '\n')
 
 
 def add_bankId() :  # 添加开户行及账号
@@ -455,6 +488,8 @@ def add_bankId() :  # 添加开户行及账号
     text = xy_end(x1, y1, x2, y2, x3, y3, x4, y4)
     with open(filename, 'a+') as f :
         f.write(text + bank_and_account + '\n')
+    with open(kv_filename, 'a+') as fname :
+        fname.write("销售方_开户行及账号" + '\t' + bank_and_account + '\n')
 
 
 def add_name() :
@@ -488,6 +523,10 @@ def add_name() :
         f.write(n1_text + name1 + '\n')
         f.write(n2_text + name2 + '\n')
         f.write(n3_text + name3 + '\n')
+    with open(kv_filename, 'a+') as fname :
+        fname.write("发票基本信息_收款人" + '\t' + name1 + '\n')
+        fname.write("发票基本信息_复核" + '\t' + name2 + '\n')
+        fname.write("发票基本信息_开票人" + '\t' + name3 + '\n')
 
 
 # 添加发票代码
@@ -511,6 +550,8 @@ def add_fapiao_daima() :
     with open(filename, 'a+') as f :
         f.write(x_text + num_str + '\n')
         f.write(sx_text + num_str + '\n')
+    with open(kv_filename, 'a+') as fname :
+        fname.write("发票基本信息_发票代码" + '\t' + num_str + '\n')
 
 
 # 添加发票号码
@@ -533,6 +574,8 @@ def add_fapiao_hao() :
     with open(filename, 'a+') as f :
         f.write(x_text + no_str + '\n')
         f.write(sx_text + no_str + '\n')
+    with open(kv_filename, 'a+') as fname :
+        fname.write("发票基本信息_发票号码" + '\t' + no_str + '\n')
 
 
 # 主函数
@@ -540,6 +583,7 @@ def add() :
     add_fapiao_daima()  # 添加发票代码
     add_fapiao_hao()  # 添加发票号码
     print_date()  # 生成日期函数
+    add_name()  # 添加收款人复核人开票人名字
     purchase()  # 购买方区域文字添加
     password()  # 添加密码区
     add_goods()  # 添加货物或应税劳务及后面对应的规格价格等内容
@@ -547,7 +591,6 @@ def add() :
     seller_nums()  # 添加纳税人识别号（销售方）
     add_and_phone()  # 添加地址、电话（销售方）
     add_bankId()  # 添加开户行及账号
-    add_name()  # 添加收款人复核人开票人名字
     # global_var.im.show()
 
     im.save('template0/pic_origin/res' + str(index) + '.jpg')  # 保存添加完的图片
@@ -564,6 +607,20 @@ def add() :
     print(index)
 
 
+def before_add(template_num) :
+    if template_num == 1 :
+        name = "上海增值税专用发票"
+    elif template_num == 2 :
+        name = "湖北增值税专用发票"
+    elif template_num == 3 :
+        name = "江苏增值税专用发票"
+    else :
+        name = "内蒙古增值税专用发票"
+    with open(kv_filename, 'a+') as f :
+        f.write("发票基本信息_发票类型" + '\t' + "专用发票" + '\n')
+        f.write("发票基本信息_发票名称" + '\t' + name + '\n')
+
+
 def main() :
     global index
     import setup
@@ -572,6 +629,7 @@ def main() :
         global im
         global draw
         global filename
+        global kv_filename
         global rotate_angle
         global cx, cy
         template_num = random.randint(1, 4)
@@ -586,6 +644,8 @@ def main() :
         h, w, c = img_tmp.shape  # 获取图片的高和宽
         cx, cy = w / 2, h / 2  # 得到中心坐标点
         filename = 'template0/res/txt/pic' + str(index) + '.txt'
+        kv_filename = 'template0/res/key_value/pic' + str(index) + '_kv.txt'
+        before_add(template_num)
         add()
     if args.strong_if == 1 :
         strong_picture.adjust()
